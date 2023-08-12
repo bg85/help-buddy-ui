@@ -1,0 +1,20 @@
+mat-grid-list {
+    margin-top: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.heading {
+    font-weight: bold;
+    font-size: large;
+    display: inline;
+}
+
+mat-grid-tile div {
+    text-align: center;
+}

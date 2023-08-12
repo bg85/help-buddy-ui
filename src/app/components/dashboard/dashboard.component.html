@@ -1,0 +1,68 @@
+<header aria-label="Welcome" id="homepage-header" class="docs-header-background" tabindex="-1" style="outline: none;">
+    <div class="docs-header-section">
+        <div class="docs-header-headline">
+            <h1 class="mat-h1">{{'dashboard.welcome' | translate}} {{name}}</h1>
+            <h2>{{ 'dashboard.message' | translate}}</h2>
+        </div>
+    </div>
+</header>
+<br>
+<br>
+<mat-grid-list cols="3" rowHeight="300px">
+    <mat-grid-tile *ngIf="isActive">
+        <mat-card class="mat-card mat-focus-indicator docs-homepage-guides-card mat-elevation-z6">
+            <mat-card-title class="mat-card-title">{{'dashboard.review' | translate}}</mat-card-title>
+            <div class="docs-homepage-guides-card-divider">
+            </div>
+            <mat-card-content class="mat-card-content"> 
+                <br>
+                <button mat-raised-button color="primary" routerLink="/active-notes">
+                    <mat-icon aria-hidden="false" aria-label="Notes">list</mat-icon>
+                    {{'dashboard.notes' | translate}}
+                </button>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile *ngIf="isActive">
+        <mat-card class="mat-card mat-focus-indicator docs-homepage-guides-card mat-elevation-z6">
+            <mat-card-title class="mat-card-title">{{'dashboard.newNote' | translate}}</mat-card-title>
+            <div class="docs-homepage-guides-card-divider">
+            </div>
+            <mat-card-content class="mat-card-content"> 
+                <br>
+                <button mat-raised-button color="primary" routerLink="/notes">
+                    <mat-icon aria-hidden="false" aria-label="Add">add</mat-icon>
+                    {{'dashboard.addNote' | translate}}
+                </button>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <mat-card class="mat-card mat-focus-indicator docs-homepage-guides-card mat-elevation-z6">
+            <mat-card-title class="mat-card-title">{{'dashboard.profile' | translate}}</mat-card-title>
+            <div class="docs-homepage-guides-card-divider">
+            </div>
+            <mat-card-content class="mat-card-content"> 
+                <br>
+                <button mat-raised-button color="primary" routerLink="/profile">
+                    <mat-icon aria-hidden="false" aria-label="Profile">account_box</mat-icon>
+                    {{'dashboard.profile' | translate}}
+                </button>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile *ngIf="isAdmin">
+        <mat-card class="mat-card mat-focus-indicator docs-homepage-guides-card mat-elevation-z6">
+            <mat-card-title class="mat-card-title">{{'dashboard.manageUsers' | translate}}</mat-card-title>
+            <div class="docs-homepage-guides-card-divider">
+            </div>
+            <mat-card-content class="mat-card-content"> 
+                <br>
+                <button mat-raised-button color="primary" routerLink="/manage-users">
+                    <mat-icon aria-hidden="false" aria-label="Manage Users">settings_applications</mat-icon>
+                    {{'dashboard.manage' | translate}}
+                </button>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>

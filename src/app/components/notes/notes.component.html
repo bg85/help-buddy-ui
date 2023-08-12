@@ -1,0 +1,307 @@
+<div container>
+    <section>
+        <h1 mat-title>{{'notes.adding' | translate}}</h1>
+        <h2 *ngIf="note.clientName">for {{ note.clientName }} on {{ note.dateOfService | date }}</h2>
+    </section>
+    <mat-stepper linear #stepper>
+      <mat-step [stepControl]="firstFormGroup" [editable]="true">
+        <form>
+          <ng-template matStepLabel>{{'notes.general' | translate}}</ng-template>
+          <div class="centered">
+            <mat-grid-list small-grid cols="3" rowHeight="100px">
+              <mat-grid-tile colspan="1" rowspan="1"><span class="label">{{'notes.clientName' | translate}}:</span></mat-grid-tile>
+              <mat-grid-tile colspan="2" rowspan="1">
+                  <mat-form-field full-width>
+                      <mat-label>{{'notes.clientName' | translate}}</mat-label>
+                      <input matInput placeholder="{{'notes.lastFirstName' | translate}}" [(ngModel)]="note.clientName" name="clientName">
+                  </mat-form-field>
+              </mat-grid-tile>
+              <mat-grid-tile colspan="1" rowspan="1"><span class="label">{{'notes.gender' | translate}}</span></mat-grid-tile>
+              <mat-grid-tile colspan="2" rowspan="1">
+                <mat-form-field full-width>
+                  <mat-select full-width [(ngModel)]="note.gender" name="gender">
+                    <mat-option *ngFor="let gender of genderKeys" [value]="gender">
+                      {{ genderEnum[gender] }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-grid-tile>
+              <mat-grid-tile colspan="1" rowspan="1"><span class="label">{{'notes.dateOfService' | translate}}</span></mat-grid-tile>
+              <mat-grid-tile colspan="2" rowspan="1">
+                  <mat-form-field full-width>
+                      <mat-label>{{'notes.date' | translate}}</mat-label>
+                      <input type="date" matInput placeholder="mm/dd/yyyy" [(ngModel)]="note.dateOfService" name="dateOfService">
+                    </mat-form-field>
+              </mat-grid-tile>
+              <mat-grid-tile colspan="3" rowspan="1">
+                  <div fxFlex></div>
+                  <button mat-raised-button color="primary" (click)="goForwardStep(stepper)" type="button">{{'notes.next' | translate}}</button>
+              </mat-grid-tile>
+          </mat-grid-list>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [editable]="true">
+        <form>
+          <ng-template matStepLabel>{{'notes.services' | translate}}</ng-template>
+          <br>
+          <div fxLayout="row">
+            <div fxFlex="50">
+              <br>
+              <section>
+                <h2 *ngIf="!isEditingSevice">{{'notes.addService' | translate}}</h2>
+                <h2 *ngIf="isEditingSevice">{{'notes.editService' | translate}}</h2>
+              </section>
+              <br>
+              <div fxLayout="row">
+                <div fxFlex="15" fxFlexAlign="center">&nbsp;</div>
+                <div fxFlex="20" fxFlexAlign="center"><span class="label">{{'notes.category' | translate}}:</span></div>
+                <div fxFlex="50" fxFlexAlign="center">
+                  <mat-form-field full-width >
+                    <mat-select full-width [(ngModel)]="currentService.lookup" name="lookup" [disabled]="hasSteps()">
+                      <mat-option *ngFor="let lookup of serviceLookups" [value]="lookup">
+                        {{ lookup.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div fxFlex="15" fxFlexAlign="center">&nbsp;</div>
+              </div>
+              <br>
+              <div fxLayout="row">
+                <div fxFlex="15" fxFlexAlign="center">&nbsp;</div>
+                <div fxFlex="20" fxFlexAlign="center"><span class="label">{{'notes.steps' | translate}}</span></div>
+                <div fxFlex="50" fxFlexAlign="center">
+                  <button mat-mini-fab (click)="addStep()" color="primary" aria-label="Add new step">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+                <div fxFlex="15" fxFlexAlign="center">&nbsp;</div>
+              </div>
+              <br> 
+              <br>
+              <mat-accordion class="example-headers-align">
+                <mat-expansion-panel *ngFor="let step of currentService.steps; let i=index" [(expanded)]="step.expanded" hideToggle container>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                    <span class="label">{{i + 1}}. {{ step.lookup?.name }}</span>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div fxLayout="row" >
+                    <div fxFlex="15" fxFlexAlign="center"><span class="label">{{'notes.startTime' | translate}}:</span></div>
+                    <div fxFlex="30" fxFlexAlign="center">
+                      <mat-form-field full-width>
+                        <mat-label>{{'notes.startTime' | translate}}</mat-label>
+                        <input type="time" matInput placeholder="hh:mm" [(ngModel)]="step.startTime" name="startTime">
+                      </mat-form-field>
+                    </div>
+                    <div fxFlex="10" fxFlexAlign="center">&nbsp;</div>
+                    <div fxFlex="15" fxFlexAlign="center"><span class="label">{{'notes.duration' | translate}}:</span></div>
+                    <div fxFlex="20" fxFlexAlign="center">
+                      <mat-form-field full-width>
+                        <mat-label>{{'notes.duration' | translate}}</mat-label>
+                        <input matInput placeholder="mm mins" [(ngModel)]="step.duration" name="duration" type="number">
+                      </mat-form-field>
+                    </div>
+                    <div fxFlex="10"></div>
+                  </div>
+                  <div fxLayout="row">
+                    <div fxFlex="20" fxFlexAlign="center"><span class="label">{{'notes.placeOfService' | translate}}:</span></div>
+                    <div fxFlex="70" fxFlexAlign="center">
+                      <mat-form-field full-width>
+                        <mat-select full-width [(ngModel)]="step.placeOfService" name="placeOfService">
+                          <mat-option *ngFor="let place of placeOfServiceKeys" [value]="place">
+                            {{ placeOfServiceEnum[place] }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div fxFlex="10"></div>
+                  </div>
+                  <div fxLayout="row">
+                    <div fxFlex="90">
+                      <mat-form-field full-width>
+                        <mat-label>{{'notes.category' | translate}}</mat-label>
+                        <mat-select [(ngModel)]="step.lookup" name="category">
+                          <mat-option *ngFor="let lookup of stepLookups" [value]="lookup">
+                            {{lookup.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="right-aligned">
+                    <span class="middle-span">{{'notes.autoWording' | translate}}</span>&nbsp;&nbsp;
+                    <button mat-mini-fab (click)="generateWording(step)" color="primary" aria-label="Generate wording">
+                      <mat-icon>refresh</mat-icon>
+                    </button>  
+                  </div>
+                  <br>
+                  <div fxLayout="row">
+                    <div fxFlex="90">
+                      <mat-form-field full-width>
+                        <mat-label>{{'notes.description' | translate}}</mat-label>
+                        <textarea matInput rows="6" cols="50" [(ngModel)]="step.wording" name="wording">
+                        </textarea>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  &nbsp;&nbsp;
+                  <div class="right-aligned">
+                    <button mat-raised-button color="primary" (click)="saveStep(step)">{{'notes.save' | translate}}</button>
+                  </div>
+                </mat-expansion-panel>
+              </mat-accordion>
+              <br>
+              <br>
+              <div class="right-aligned">
+                <button *ngIf="!isEditingSevice" mat-raised-button color="primary" (click)="resetService()">{{'notes.reset' | translate}}</button>
+                <div *ngIf="!isEditingSevice">&nbsp;&nbsp;</div>
+                <button *ngIf="!isEditingSevice" mat-raised-button color="primary" (click)="addService()">{{'notes.addService' | translate}}</button>
+                <button *ngIf="isEditingSevice" mat-raised-button color="primary" (click)="updateService()">{{'notes.saveService' | translate}}</button>
+              </div>
+              <br>
+            </div>
+            <div fxFlex="2"></div>
+            <div fxFlex="45">
+                <br>
+                <section>
+                  <h2>{{'notes.serviceSummary' | translate}}</h2>
+                </section>
+                <br>
+                <mat-accordion>
+                    <mat-expansion-panel hideToggle *ngFor="let summary of summary">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          <span class="label">{{ summary.service.lookup?.name }}</span>
+                          <div spacer></div>
+                          <button mat-icon-button aria-label="Edit" (click)="editService(summary.service, $event)" [disabled]="isEditingSevice">
+                            <mat-icon>edit</mat-icon>
+                          </button>
+                          <button mat-icon-button color="warn" aria-label="Delete" (click)="deleteService(summary.service, $event)" [disabled]="isEditingSevice">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <div fxLayout="row">
+                        <div fxFlex="100">&nbsp;</div>
+                      </div>
+                      <div fxLayout="row"><div fxFlex="100">&nbsp;</div></div>
+                      <div fxLayout="row"><div fxFlex="100"><span class="label">{{'notes.steps' | translate}}</span></div></div>
+                      <mat-tree [dataSource]="summary.dataSource" [treeControl]="summary.treeControl">
+                        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+                          <button mat-icon-button disabled></button>
+                          <span>{{node.name}}</span>
+                        </mat-tree-node>
+                        <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+                          <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+                            <mat-icon class="mat-icon-rtl-mirror">
+                              {{summary.treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                            </mat-icon>
+                          </button>
+                          <span>{{node.name}}</span>
+                          <div spacer></div>
+                          <span class="label">{{'notes.startTime' | translate}}:</span>&nbsp;
+                          <span>{{node.startTime}}</span>&nbsp;&nbsp;
+                          <span class="label">{{'notes.duration' | translate}}:</span>
+                          <span>{{node.duration}}</span>&nbsp;&nbsp;
+                          <span class="label">{{'notes.at' | translate}}:</span>
+                          <span>{{placeOfServiceEnum[node.placeOfService]}}</span>
+                        </mat-tree-node>
+                      </mat-tree>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+          </div>
+          <br><br><br>
+          <div class="right-aligned">
+            <button mat-raised-button color="primary" matStepperPrevious>{{'notes.back' | translate}}</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button mat-raised-button color="primary" matStepperNext>{{'notes.next' | translate}}</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>{{'notes.services' | translate}}</ng-template>
+        <br><br>
+        <section>
+          <h2>{{'notes.general' | translate}}</h2>
+        </section>
+        <div fxLayout="row">
+          <div fxFlex="20"></div>
+          <div fxFlex="10"><span class="label">{{'notes.clientName' | translate}}:</span></div>
+          <div fxFlex="50">{{ note.clientName }}</div>
+          <div fxFlex="20"></div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="100">&nbsp;</div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="20"></div>
+          <div fxFlex="10"><span class="label">{{'notes.gender' | translate}}:</span></div>
+          <div fxFlex="50">{{ genderEnum[note.gender] }}</div>
+          <div fxFlex="20"></div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="100">&nbsp;</div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="20"></div>
+          <div fxFlex="10"><span class="label">{{'notes.dateOfService' | translate}}:</span></div>
+          <div fxFlex="50">{{ getDateOfService() }}</div>
+          <div fxFlex="20"></div>
+        </div>
+        <br>
+        <div fxLayout="row">
+          <div fxFlex="20"></div>
+          <div fxFlex="60"><mat-divider></mat-divider></div>
+          <div fxFlex="20"></div>
+        </div>
+        <br>
+        <br>
+        <section>
+          <h2>{{'notes.descriptionServices' | translate}}</h2>
+        </section>
+        <br>
+        <mat-accordion>
+          <mat-expansion-panel hideToggle *ngFor="let summary of summary">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <span class="label" style="margin-top: 0px;">{{ summary.service.lookup?.name }}</span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div fxLayout="row">
+              <div fxFlex="100">&nbsp;</div>
+            </div>
+            <div fxLayout="row"><div fxFlex="100">&nbsp;</div></div>
+            <div fxLayout="row"><div fxFlex="100"><span class="label">{{'notes.steps' | translate}}</span></div></div>
+            <mat-tree [dataSource]="summary.dataSource" [treeControl]="summary.treeControl">
+              <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+                <button mat-icon-button disabled></button>
+                {{node.name}}
+              </mat-tree-node>
+              <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+                <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+                  <mat-icon class="mat-icon-rtl-mirror">
+                    {{summary.treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                  </mat-icon>
+                </button>
+                <span>{{node.name}}</span>
+                <div spacer></div>
+                <span class="label">{{'notes.startTime' | translate}}:</span>&nbsp;
+                <span>{{node.startTime}}</span>&nbsp;&nbsp;
+                <span class="label">{{'notes.duration' | translate}}:</span>
+                <span>{{node.duration}}</span>&nbsp;&nbsp;
+                <span class="label">{{'notes.at' | translate}}:</span>
+                <span>{{placeOfServiceEnum[node.placeOfService]}}</span>
+              </mat-tree-node>
+            </mat-tree>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <br><br><br>
+          <div class="right-aligned">
+            <button mat-raised-button color="primary" (click)="printNote();">{{'notes.print' | translate}}</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button mat-raised-button color="primary" (click)="addNote(); stepper.reset();">{{'notes.addAnother' | translate}}</button>
+          </div>
+      </mat-step>
+    </mat-stepper>
+</div>

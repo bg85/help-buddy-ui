@@ -1,0 +1,185 @@
+sandbox account: sb-fjyqk8557250@business.example.com
+client id: AZv1g0WFtBKIO-tg834KvcHFzky_nNh7VrNni4nrAlgrE2SIsHUALCG3XOqlovNLZSp6o5R2g29R6YMV
+secret: EEx26indNXG5fsGl0lwxWopP1cKq8Qj8gn2xIDdtyOBoPjv6JXduWNqhQjcNE4O2X3FR3v0rOKzZWl6D
+
+
+SANDBOX: https://www.sandbox.paypal.com/
+
+Buyer credentials
+email: sb-o1dp18557340@personal.example.com
+password: GngU<}P0
+
+
+Business Account Credentials
+email: sb-fjyqk8557250@business.example.com
+password: ?"%psU3e
+
+* Exchange your api credentials for an access-token
+curl -v POST https://api-m.sandbox.paypal.com/v1/oauth2/token \
+  -H "Accept: application/json" \
+  -H "Accept-Language: en_US" \
+  -u "CLIENT_ID:SECRET" \
+  -d "grant_type=client_credential  s"
+
+  curl -v POST https://api-m.sandbox.paypal.com/v1/oauth2/token \
+  -H "Accept: application/json" \
+  -H "Accept-Language: en_US" \
+  -u "AZv1g0WFtBKIO-tg834KvcHFzky_nNh7VrNni4nrAlgrE2SIsHUALCG3XOqlovNLZSp6o5R2g29R6YMV:EEx26indNXG5fsGl0lwxWopP1cKq8Qj8gn2xIDdtyOBoPjv6JXduWNqhQjcNE4O2X3FR3v0rOKzZWl6D" \
+  -d "grant_type=client_credentials"
+
+
+  curl -v POST https://api-m.sandbox.paypal.com/v1/oauth2/token \
+  -H "Accept: application/json" \
+  -H "Accept-Language: en_US" \
+  -u "AZv1g0WFtBKIO-tg834KvcHFzky_nNh7VrNni4nrAlgrE2SIsHUALCG3XOqlovNLZSp6o5R2g29R6YMV:EEx26indNXG5fsGl0lwxWopP1cKq8Qj8gn2xIDdtyOBoPjv6JXduWNqhQjcNE4O2X3FR3v0rOKzZWl6D" \
+  -d "grant_type=client_credentials"
+
+  Basic QVp2MWcwV0Z0QktJTy10ZzgzNEt2Y0hGemt5X25OaDdWck5uaTRuckFsZ3JFMlNJc0hVQUxDRzNYT3Fsb3ZOTFpTcDZvNVIyZzI5UjZZTVY6RUV4MjZpbmROWEc1ZnNHbDBsd3hXb3BQMWNLcThRajhnbjJ4SURkdHlPQm9QanY2SlhkdVdOcWhRamNORTRPMlgzRlIzdjByT0t6WldsNkQ=
+  A21AALNrb65g8T3Mnx7R4OhjI9ArHUKg55qjltKNvJOsAQS63q4iakjUgvdTyKAxNtLn8EB8oFBaVzyXWhCC9ucan2n_1fc4w
+
+creating my subscription product
+
+curl -v -X POST https://api-m.sandbox.paypal.com/v1/catalogs/products \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <Access-Token>" \
+  -H "PayPal-Request-Id: PRODUCT-18062020-001" \
+  -d '{
+  "name": "Video Streaming Service",
+  "description": "A video streaming service",
+  "type": "SERVICE",
+  "category": "SOFTWARE",
+  "image_url": "https://example.com/streaming.jpg",
+  "home_url": "https://example.com/home"
+}'
+
+curl -v -X POST https://api-m.sandbox.paypal.com/v1/catalogs/products \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer A21AALNrb65g8T3Mnx7R4OhjI9ArHUKg55qjltKNvJOsAQS63q4iakjUgvdTyKAxNtLn8EB8oFBaVzyXWhCC9ucan2n_1fc4w" \
+  -H "PayPal-Request-Id: PRODUCT-001" \
+  -d '{
+  "name": "Monthly Subscription",
+  "description": "Monthly Subscription",
+  "type": "SERVICE",
+  "category": "SOFTWARE",
+  "image_url": "https://thehelpbuddy.com/logo",
+  "home_url": "https://thehelpbuddy.com"
+}'
+Response:
+{"id":"PROD-9EK33567PE9511602","name":"Monthly Subscription","description":"Monthly Subscription","create_time":"2021-11-17T20:16:16Z","links":[{"href":"https://api.sandbox.paypal.com/v1/catalogs/products/PROD-9EK33567PE9511602","rel":"self","method":"GET"},{"href":"https://api.sandbox.paypal.com/v1/catalogs/products/PROD-9EK33567PE9511602","rel":"edit","method":"PATCH"}]}
+
+
+* creating my subscription plan
+
+curl -v -k -X POST https://api-m.sandbox.paypal.com/v1/billing/plans \
+  -H "Accept: application/json" \
+  -H "Authorization: Bearer <Access-Token>" \
+  -H "Content-Type: application/json" \
+  -H "PayPal-Request-Id: PLAN-18062020-001" \
+  -d '{
+      "product_id": "PROD-5FD60555F23244316",
+      "name": "Basic Plan",
+      "description": "Basic plan",
+      "billing_cycles": [
+        {
+          "frequency": {
+            "interval_unit": "MONTH",
+            "interval_count": 1
+          },
+          "tenure_type": "TRIAL",
+          "sequence": 1,
+          "total_cycles": 1
+        },
+        {
+          "frequency": {
+            "interval_unit": "MONTH",
+            "interval_count": 1
+          },
+          "tenure_type": "REGULAR",
+          "sequence": 2,
+          "total_cycles": 12,
+          "pricing_scheme": {
+            "fixed_price": {
+              "value": "10",
+              "currency_code": "USD"
+            }
+          }
+        }
+      ],
+      "payment_preferences": {
+        "auto_bill_outstanding": true,
+        "setup_fee": {
+          "value": "10",
+          "currency_code": "USD"
+        },
+        "setup_fee_failure_action": "CONTINUE",
+        "payment_failure_threshold": 3
+      },
+      "taxes": {
+        "percentage": "10",
+        "inclusive": false
+      }
+    }'
+
+curl -v -k -X POST https://api-m.sandbox.paypal.com/v1/billing/plans \
+  -H "Accept: application/json" \
+  -H "Authorization: Bearer A21AALNrb65g8T3Mnx7R4OhjI9ArHUKg55qjltKNvJOsAQS63q4iakjUgvdTyKAxNtLn8EB8oFBaVzyXWhCC9ucan2n_1fc4w" \
+  -H "Content-Type: application/json" \
+  -H "PayPal-Request-Id: PLAN-001" \
+  -d '{
+      "product_id": "PROD-5FD60555F23244316",
+      "name": "Basic Plan",
+      "description": "Basic plan",
+      "billing_cycles": [
+        {
+          "frequency": {
+            "interval_unit": "MONTH",
+            "interval_count": 1
+          },
+          "tenure_type": "TRIAL",
+          "sequence": 1,
+          "total_cycles": 1
+        },
+        {
+          "frequency": {
+            "interval_unit": "MONTH",
+            "interval_count": 1
+          },
+          "tenure_type": "REGULAR",
+          "sequence": 2,
+          "total_cycles": 12,
+          "pricing_scheme": {
+            "fixed_price": {
+              "value": "20",
+              "currency_code": "USD"
+            }
+          }
+        }
+      ],
+      "payment_preferences": {
+        "auto_bill_outstanding": true,
+        "setup_fee": {
+          "value": "20",
+          "currency_code": "USD"
+        },
+        "setup_fee_failure_action": "CONTINUE",
+        "payment_failure_threshold": 3
+      },
+      "taxes": {
+        "percentage": "0",
+        "inclusive": false
+      }
+    }'
+Response:
+{"name":"RESOURCE_NOT_FOUND","message":"The specified resource does not exist.","debug_id":"d14291534a2d4","details":[{"issue":"INVALID_RESOURCE_ID","description":"Invalid product id"}],"links":[{"href":"https://developer.paypal.com/docs/api/v1/billing/subscriptions#RESOURCE_NOT_FOUND","rel":"information_link","method":"GET"}]}
+
+
+
+const url = `${environment.subscriptionUrl}/payments/${environment.planId}/cancel/`;
+            // this.http.post(url, null, { headers: { "Content-Type": "application/json", "Authorization": authToken } });
+
+* cancel subscription
+curl -v POST https://api-m.sandbox.paypal.com/v1/billing/subscriptions/I-SN35A7LAKSJW/cancel \
+  -H "content-type: application/json" \
+  -H "authorization: Bearer A21AAL-ChZKvQ1NPl5XaMH9F_Tl1PSFz1vPSc0JBIoJVgkSzMSRzPjCbmCfWCDoktyvYpDnFEF7_YvpUqxFj_caugyjnLW0KA"
+
+  A21AAL-ChZKvQ1NPl5XaMH9F_Tl1PSFz1vPSc0JBIoJVgkSzMSRzPjCbmCfWCDoktyvYpDnFEF7_YvpUqxFj_caugyjnLW0KA

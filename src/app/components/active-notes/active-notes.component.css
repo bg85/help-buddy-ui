@@ -1,0 +1,19 @@
+.mat-form-field {
+    margin-right: 4px;
+}
+
+[container] {
+    width: 90%;
+    margin: 5%;
+    text-align: center;
+}
+
+section {
+    margin-bottom: 2%;
+}
+
+[tree] {
+    margin-top: 3%;
+    width: 30%;
+    margin-left: 40%;
+}

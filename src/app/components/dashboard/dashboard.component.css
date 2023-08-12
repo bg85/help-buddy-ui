@@ -1,0 +1,69 @@
+.docs-header-background {
+    height: 330px;
+    overflow: hidden;
+    position: relative;
+    background: #673ab7;
+    z-index: -1;
+}
+
+.docs-header-section {
+    width: 90%;
+    position: absolute;
+    z-index: 0;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.docs-header-headline {
+    color: #fff;
+}
+
+.docs-header-headline h1 {
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 56px;
+    margin: 15px 5px;
+}
+
+.docs-header-headline h2 {
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 28px;
+    margin: 15px 0 25px;
+}
+
+header {
+    display: block;
+}
+
+button {
+    width: 30%;
+    /* height: %; */
+    font-size: large;
+}
+
+.docs-homepage-guides-card{
+    width: 100%;
+    min-height: 140px;
+    text-align: center;
+}
+
+mat-card {
+    margin: 5%;
+}
+
+.mat-card-title {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.docs-homepage-guides-card-divider {
+    width: 30%;
+    height: 5px;
+    margin: 15px auto;
+    background: #ffd740;
+}

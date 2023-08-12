@@ -1,0 +1,63 @@
+<mat-grid-list cols="2" rowHeight="2:1">
+    <mat-grid-tile>
+        <mat-card>
+            <mat-card-title>Create User</mat-card-title>
+            <br>
+            <form class="create-user-form">
+                <mat-form-field class="full-width">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="test@test.com" [(ngModel)]="user.email" name="email">
+                </mat-form-field>
+                <br>
+                <mat-form-field class="half-width">
+                    <mat-label>First Name</mat-label>
+                    <input matInput placeholder="First Name" [(ngModel)]="user.firstName" name="firstName">
+                </mat-form-field>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <mat-form-field class="half-width">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput placeholder="Last Name" [(ngModel)]="user.lastName" name="lastName">
+                </mat-form-field>
+                <br>
+                <mat-form-field class="half-width">
+                    <mat-label>Role</mat-label>
+                    <input matInput placeholder="Role" [(ngModel)]="user.role" name="role">
+                </mat-form-field>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <mat-form-field class="half-width">
+                    <mat-label>Institution</mat-label>
+                    <input matInput placeholder="Institution" [(ngModel)]="user.institution" name="institution">
+                </mat-form-field>
+            </form>
+            <br>
+            <label *ngIf="hasMessage()">{{displayMessage}}</label>
+            <br>
+            <mat-card-actions>
+                <button mat-button (click)="createUser()">Create</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <mat-card>
+            <mat-card-title>Register Payment</mat-card-title>
+            <br>
+            <form class="register-payment-form">
+                <mat-form-field class="full-width">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="test@test.com" [(ngModel)]="payment.userEmail" name="email">
+                </mat-form-field>
+                <br>
+                <mat-form-field class="full-width">
+                    <mat-label>Amount</mat-label>
+                    <input type="number" matInput placeholder="amount" [(ngModel)]="payment.amount" name="amount">
+                </mat-form-field>
+            </form>
+            <br>
+            <label *ngIf="hasPaymentMessage()">{{paymentDisplayMessage}}</label>
+            <br>
+            <mat-card-actions>
+                <button mat-button (click)="registerPayment()">Add Payment</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-grid-tile>
+</mat-grid-list>

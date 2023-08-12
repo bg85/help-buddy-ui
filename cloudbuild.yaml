@@ -1,0 +1,15 @@
+steps:
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/the-help-buddy-322514/help-buddy-ui', '.']
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/the-help-buddy-322514/help-buddy-ui']
+# Deploy container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args: ['run', 'deploy', 'the-help-buddy-ui', '--image', 'gcr.io/the-help-buddy-322514/help-buddy-ui', '--region', 'us-east1', '--timeout', '380']
+images:
+- gcr.io/the-help-buddy-322514/help-buddy-ui
+options:
+ logging: CLOUD_LOGGING_ONLY

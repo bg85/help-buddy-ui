@@ -1,0 +1,64 @@
+[container] {
+    margin: 5%;
+    width: 90%;
+}
+
+section {
+    text-align: center;
+    margin-bottom: 2%;
+}
+
+mat-stepper {
+    margin-top: 2%
+}
+
+[small-grid] {
+    width: 50%;
+}
+
+[full-width] {
+    width: 100%;
+}
+
+[spacer] {
+    flex: 1 1 auto;
+}
+
+mat-panel-title span {
+    margin-top: 1.5%;
+}
+
+.label {
+    font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif;
+    letter-spacing: normal;
+    font-weight: bold;
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+}
+
+.right-aligned {
+    display: inline-block;
+    text-align: right;
+    width: 30%;
+}
+
+.centered span {
+    margin-top: 1.5%;
+}
+
+[medium-width] {
+    width: 70%;
+}
+
+.right-aligned {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.middle-span {
+    margin-top: 1.5%;
+}

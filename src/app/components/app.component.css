@@ -1,0 +1,21 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+.expanded-toolbar {
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+}
+
+mat-select {
+    width: 70px;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+}

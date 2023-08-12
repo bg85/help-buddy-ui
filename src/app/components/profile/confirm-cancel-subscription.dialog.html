@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>{{'profile.cancelSubscription' | translate}}</h1>
+<div mat-dialog-content>
+  <mat-label>{{'profile.cancelSubscriptionQuestion' | translate}}?</mat-label>
+</div>
+<div mat-dialog-actions>
+  <div style="width:100%; text-align: right;">
+    <button mat-button cdkFocusInitial (click)="cancelSubscription()">{{'profile.yes' | translate}}</button>
+    <button mat-button (click)="onNoClick()">{{'profile.no' | translate}}</button>
+  </div>
+</div>

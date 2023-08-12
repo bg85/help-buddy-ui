@@ -1,0 +1,47 @@
+<mat-toolbar color="primary" class="expanded-toolbar mat-elevation-z6">
+  <span>
+    <button mat-button routerLink="/">{{title}}</button>
+    <button mat-button routerLink="/"><mat-icon>home</mat-icon></button>
+  </span>
+  <div fxLayout="row" fxShow="false" fxShow.gt-sm>
+    <mat-select [(ngModel)]="language" (selectionChange)="changeLanguage()">
+      <mat-option value="en">English</mat-option>
+      <mat-option value="es">Español</mat-option>
+    </mat-select>
+    &nbsp;&nbsp;
+    <button mat-button routerLink="/login" *ngIf="!isAuthenticated">
+      <mat-icon>power_settings_new</mat-icon>
+      Login
+    </button>
+    <button mat-button *ngIf="isAuthenticated" (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon>
+      Logout
+    </button>
+    <button mat-button routerLink="/dashboard" *ngIf="isAuthenticated">
+      <mat-icon>dashboard</mat-icon>
+      Dashboard
+    </button>
+  </div>
+  <button mat-button [mat-menu-trigger-for]="menu" fxHide="false" fxHide.gt-sm>
+    <mat-icon>menu</mat-icon>
+  </button>
+</mat-toolbar>
+<mat-menu x-position="before" #menu="matMenu">
+  <button mat-menu-item routerLink="/">
+    <mat-icon>home</mat-icon>
+    Home
+  </button>
+  <button mat-menu-item routerLink="/game">
+    <mat-icon>dashboard</mat-icon>
+    Dashoard  
+  </button>
+  <button mat-menu-item routerLink="/login" *ngIf="!isAuthenticated">
+    <mat-icon>power_settings_new</mat-icon>
+    Login
+  </button>
+  <button mat-menu-item *ngIf="isAuthenticated" (click)="logout()">
+    <mat-icon>exit_to_app</mat-icon>
+    Logout
+  </button>
+</mat-menu>
+<router-outlet></router-outlet>
